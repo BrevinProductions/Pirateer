@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+
     //Start
     void Start() 
     {
@@ -42,9 +43,29 @@ public class PlayerController : MonoBehaviour
         }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        //float vertical = Input.GetAxisRaw("Vertical");
+
+        float vertical = 0f;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            vertical += 1f;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            vertical -= 1f;
+        }
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 12;
+        }
+        else
+        {
+            speed = 6;
+        }
 
         velocity.y += gravity * Time.deltaTime;
 
