@@ -7,7 +7,10 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public Transform cam;
 
-    public float speed = 6f;
+    public float speed;
+
+    public float runSpeed = 6f;
+    public float sprintSpeed = 12f;
 
     public float gravity = -9.81f;
 
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
     //Start
     void Start() 
     {
+        //lock cursor invisible in scene
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -35,44 +39,40 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //check ground state for jumping/air strafing
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0) 
         {
+            //hold player to ground when grounded
             velocity.y = -1f;
         }
 
+        //get move input
         float horizontal = Input.GetAxisRaw("Horizontal");
-        //float vertical = Input.GetAxisRaw("Vertical");
-
-        float vertical = 0f;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            vertical += 1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            vertical -= 1f;
-        }
+        float vertical = Input.GetAxisRaw("Vertical");
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        //check sprint
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 12;
+            speed = sprintSpeed;
         }
         else
         {
-            speed = 6;
+            speed = runSpeed;
         }
 
+        //add gravity to movement
         velocity.y += gravity * Time.deltaTime;
 
+        //check jump (get button down "jump" just checks for spacebar input)
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+
 
         if (direction.magnitude >= 0.1f)
         {
@@ -81,12 +81,25 @@ public class PlayerController : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDir;
+
+            if (vertical >= 0)
+            {
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            }
+            else
+            {
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.back;
+            }
+
+            //character move
             controller.Move(moveDir * speed * Time.deltaTime);
         }
-
+        
+        //move in accordance to velocity
         controller.Move(velocity * Time.deltaTime);
 
+        //remove cursor lock on escape key
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             Cursor.visible = !Cursor.visible;
