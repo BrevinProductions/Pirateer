@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    //TODO: Fix Sprint wtf dumbass
+
     public CharacterController controller;
     public Transform cam;
 
@@ -22,6 +25,14 @@ public class PlayerController : MonoBehaviour
     public float groundDistance;
     public LayerMask groundMask;
 
+    //stamina things
+    public Slider staminaSlider;
+    public float maxStamina = 4;
+    public float stamina = 10;
+
+
+    bool sprint = false;
+
     bool isGrounded = false;
 
     public float turnSmoothTime = 0.1f;
@@ -33,6 +44,9 @@ public class PlayerController : MonoBehaviour
         //lock cursor invisible in scene
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        //set stamina slider
+        staminaSlider.maxValue = stamina;
     }
 
 
@@ -55,14 +69,21 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         //check sprint
-        if (Input.GetKey(KeyCode.LeftShift))
+        sprint = (Input.GetKey(KeyCode.LeftShift));
+
+        if (sprint && stamina > 0)
         {
             speed = sprintSpeed;
+            stamina -= Time.deltaTime;
         }
         else
         {
+            if (stamina < maxStamina)
+                stamina += Time.deltaTime;
             speed = runSpeed;
         }
+
+        staminaSlider.value = stamina;
 
         //add gravity to movement
         velocity.y += gravity * Time.deltaTime;
