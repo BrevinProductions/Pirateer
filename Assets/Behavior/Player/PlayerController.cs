@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    //TODO: Fix Sprint wtf dumbass
+    //TODO: sprint should only drain while running
 
     public CharacterController controller;
     public Transform cam;
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+
+    bool rested = true;
 
     //Start
     void Start() 
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
         //check sprint
         sprint = (Input.GetKey(KeyCode.LeftShift));
 
-        if (sprint && stamina > 0)
+        if (sprint && stamina > 0 && rested)
         {
             speed = sprintSpeed;
             stamina -= Time.deltaTime;
@@ -80,6 +82,12 @@ public class PlayerController : MonoBehaviour
         {
             if (stamina < maxStamina)
                 stamina += Time.deltaTime;
+
+            //test rested
+            if (stamina <= 0)
+                rested = false;
+            else if (stamina > 1)
+                rested = true;
             speed = runSpeed;
         }
 
