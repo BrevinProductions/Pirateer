@@ -6,39 +6,45 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     //TODO: sprint should only drain while running
+    //this is some damn ugly code, I'm sorry
 
+    //
     public CharacterController controller;
     public Transform cam;
+    //
 
+    //
     public float speed;
-
     public float runSpeed = 6f;
     public float sprintSpeed = 12f;
+    bool sprint = false;
+    //
 
+    //
     public float gravity = -9.81f;
-
     public float jumpHeight = 2;
+    bool isGrounded = false;
+    //
 
     Vector3 velocity;
 
+    //
     public Transform groundCheck;
     public float groundDistance;
     public LayerMask groundMask;
+    //
 
     //stamina things
     public Slider staminaSlider;
     public float maxStamina = 4;
     public float stamina = 10;
+    bool rested = true;
+    //
 
-
-    bool sprint = false;
-
-    bool isGrounded = false;
-
+    //
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
-
-    bool rested = true;
+    //
 
     //Start
     void Start() 
@@ -46,9 +52,10 @@ public class PlayerController : MonoBehaviour
         //lock cursor invisible in scene
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
+    
         //set stamina slider
-        staminaSlider.maxValue = stamina;
+        staminaSlider.maxValue = maxStamina;
+        stamina = maxStamina;
     }
 
 
@@ -73,17 +80,18 @@ public class PlayerController : MonoBehaviour
         //check sprint
         sprint = (Input.GetKey(KeyCode.LeftShift));
 
+        //test for ability to spring
         if (sprint && stamina > 0 && rested)
         {
             speed = sprintSpeed;
             stamina -= Time.deltaTime;
         }
-        else
+        else //if sprint unavaiable, move normally
         {
             if (stamina < maxStamina)
                 stamina += Time.deltaTime;
 
-            //test rested
+            //test rested - only available when stamina is greater than 1 second
             if (stamina <= 0)
                 rested = false;
             else if (stamina > 1)

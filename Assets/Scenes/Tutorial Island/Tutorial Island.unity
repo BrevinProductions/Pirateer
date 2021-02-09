@@ -811,7 +811,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819169006}
-  m_LocalRotation: {x: 0.06549454, y: -0.027175779, z: 0.0017843597, w: 0.9974812}
+  m_LocalRotation: {x: 0.06549454, y: -0.027175814, z: 0.0017843621, w: 0.9974812}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2072,7 +2072,7 @@ MonoBehaviour:
   speed: 6
   runSpeed: 12
   sprintSpeed: 24
-  gravity: -9.81
+  gravity: -14
   jumpHeight: 2
   groundCheck: {fileID: 1765108724}
   groundDistance: 0.15
@@ -2080,8 +2080,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   staminaSlider: {fileID: 838857960}
-  maxStamina: 2
-  stamina: 2
+  maxStamina: 5
+  stamina: 0
   turnSmoothTime: 0.1
 --- !u!114 &1958079605
 MonoBehaviour:
