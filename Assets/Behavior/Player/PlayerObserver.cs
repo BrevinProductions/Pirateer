@@ -13,6 +13,9 @@ public class PlayerObserver : MonoBehaviour
     //health slider
     public Slider healthSlider;
 
+    //Inventory Panel
+    public GameObject inventoryPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +46,12 @@ public class PlayerObserver : MonoBehaviour
         {
             Hit(1.0f);
         }
+
+        //toggle Inventory
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            inventoryPanel.SetActive(toggle(inventoryPanel.activeSelf));
+        }
     }
 
     //hit w/ effects
@@ -55,5 +64,15 @@ public class PlayerObserver : MonoBehaviour
     public void Hit(float dmg)
     {
         Health -= dmg;
+    }
+
+    bool toggle(bool val)
+    {
+        if (val)
+            return false;
+        else
+        {
+            return true;
+        }
     }
 }

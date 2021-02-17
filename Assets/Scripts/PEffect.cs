@@ -8,6 +8,7 @@ namespace Pirateer
 {
     public interface PEffect
     {
+        //applies an effect to the character
         void Apply();
     }
 }
