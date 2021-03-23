@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Pirateer;
+using Pirateer.Gameplay.Tools;
 
 public class PlayerObserver : MonoBehaviour
 {
@@ -40,11 +41,10 @@ public class PlayerObserver : MonoBehaviour
             healthSlider.interactable = false;
         }
 
-
         //test hit
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Hit(1.0f);
+            SelfHit(new HitData(1.0f));
         }
 
         //toggle Inventory
@@ -55,15 +55,10 @@ public class PlayerObserver : MonoBehaviour
     }
 
     //hit w/ effects
-    public void Hit(float dmg, List<PEffect> effects)
+    public void SelfHit(HitData hit)
     {
-        Health -= dmg;
-    }
-
-    //hit w/o effects
-    public void Hit(float dmg)
-    {
-        Health -= dmg;
+        //apply affects
+        Health -= hit.dmg;
     }
 
     bool toggle(bool val)

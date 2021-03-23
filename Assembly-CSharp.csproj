@@ -55,9 +55,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Behavior\Enemy\SkelletonBehavior.cs" />
      <Compile Include="Assets\Behavior\Player\PlayerController.cs" />
      <Compile Include="Assets\Behavior\Player\PlayerObserver.cs" />
-     <Compile Include="Assets\Scripts\PEffect.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Environment\Entity.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Environment\Skelleton.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Tools\HitData.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Tools\PEffect.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Tools\PItem.cs" />
      <Compile Include="Assets\Scripts\SyncSolutionUtilities.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
