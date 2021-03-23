@@ -9,8 +9,18 @@ using Pirateer.Gameplay.Tools;
 
 namespace Pirateer.Gameplay.Environment
 {
+    public enum EntityType : byte
+    {
+        neutral,
+        friendly,
+        enemy,
+        player
+    }
+
     public abstract class Entity
     {
+        public EntityType EntityType;
+
         public List<Tools.PItem> Items { get; set; }
 
         //
