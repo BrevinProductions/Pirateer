@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Behavior\Enemy\SkelletonBehavior.cs" />
+     <Compile Include="Assets\Behavior\Player\PlayerCharacter.cs" />
      <Compile Include="Assets\Behavior\Player\PlayerController.cs" />
      <Compile Include="Assets\Behavior\Player\PlayerObserver.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Environment\Entity.cs" />

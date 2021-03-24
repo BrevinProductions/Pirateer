@@ -5,11 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Pirateer;
 using Pirateer.Gameplay.Tools;
+using Pirateer.Gameplay.Environment;
 
 public class PlayerObserver : MonoBehaviour
 {
-    //player health
-    public float Health { get; set; }
 
     //health slider
     public Slider healthSlider;
@@ -17,13 +16,17 @@ public class PlayerObserver : MonoBehaviour
     //Inventory Panel
     public GameObject inventoryPanel;
 
+    public PlayerCharacter player { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
+        player = new PlayerCharacter(gameObject);
+
         //later I want to get the player's health from a save file,
         //but for now it's set to 10 at start
 
-        Health = 10;
+        player.Health = 10;
 
         healthSlider.maxValue = 10;
 
@@ -34,17 +37,17 @@ public class PlayerObserver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(healthSlider.value != Health)
+        if(healthSlider.value != player.Health)
         {
-            healthSlider.interactable = true;
-            healthSlider.value = Health;
-            healthSlider.interactable = false;
+            //healthSlider.interactable = true;
+            healthSlider.value = player.Health;
+            //healthSlider.interactable = false;
         }
 
         //test hit
         if (Input.GetKeyDown(KeyCode.H))
         {
-            SelfHit(new HitData(1.0f));
+            player.SelfHit(new HitData(1.0f));
         }
 
         //toggle Inventory
@@ -52,15 +55,16 @@ public class PlayerObserver : MonoBehaviour
         {
             inventoryPanel.SetActive(toggle(inventoryPanel.activeSelf));
         }
+
+        //test for player death
+        if(player.Health <= 0)
+        {
+            player.OnDeath();
+        }
     }
 
-    //hit w/ effects
-    public void SelfHit(HitData hit)
-    {
-        //apply affects
-        Health -= hit.dmg;
-    }
 
+    //little toggle function :) - I think this looks prettier
     bool toggle(bool val)
     {
         if (val)

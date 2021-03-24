@@ -21,13 +21,15 @@ namespace Pirateer.Gameplay.Environment
     {
         public EntityType EntityType;
 
-        public List<Tools.PItem> Items { get; set; }
+        public List<PItem> Items { get; set; }
 
-        //
+        public float Health { get; set; }
+
+        //link the game object to this on startup
         public GameObject gameObject { get; set; }
 
         //if the enemy hits the player, this happens
-        public abstract void Hit(PlayerObserver player, HitData hit);
+        public abstract void Hit(Entity entity, HitData hit);
 
         //if the enemy is hit, call this function
         public abstract void SelfHit(HitData hit);
@@ -38,7 +40,7 @@ namespace Pirateer.Gameplay.Environment
         //no enemy can be instantiated without a gameobject
         public Entity(GameObject obj)
         {
-
+            gameObject = obj;
         }
     }
 }

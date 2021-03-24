@@ -27,9 +27,9 @@ namespace Pirateer.Gameplay.Environment
         }
 
         //on hit of another entity, I'll be changing the player observer to an entity
-        public override void Hit(PlayerObserver player, HitData data)
+        public override void Hit(Entity entity, HitData data)
         {
-            player.SelfHit(data);
+            entity.SelfHit(data);
         }
 
         //when hit

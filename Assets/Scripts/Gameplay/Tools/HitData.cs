@@ -15,7 +15,7 @@ namespace Pirateer.Gameplay.Tools
         //empty hit
         public HitData()
         {
-            //do nothing, this hit does nothing
+            //do nothing, because this hit does nothing
             Debug.Log("Effectless HIT");
         }
 
