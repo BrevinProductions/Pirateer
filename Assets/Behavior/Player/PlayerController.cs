@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         staminaSlider.value = stamina;
 
         //add gravity to movement
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime; 
 
         //check jump (get button down "jump" just checks for spacebar input)
         if (Input.GetButtonDown("Jump") && isGrounded)

@@ -7,8 +7,9 @@ using Pirateer;
 using Pirateer.Gameplay.Tools;
 using Pirateer.Gameplay.Environment;
 
-public class PlayerObserver : MonoBehaviour
+public class PlayerObserver : MonoBehaviour, EntityBehavior
 {
+
 
     //health slider
     public Slider healthSlider;
@@ -16,17 +17,25 @@ public class PlayerObserver : MonoBehaviour
     //Inventory Panel
     public GameObject inventoryPanel;
 
-    public PlayerCharacter player { get; set; }
+    //hit information
+    HitData basicHit;
+    public float hitStrength = 2.0f;
+    HitData criticalHit;
+
+    public Entity Entity { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        player = new PlayerCharacter(gameObject);
+        basicHit = new HitData(hitStrength);
+        criticalHit = new HitData(hitStrength * 2.0f);
+
+        Entity = new PlayerCharacter(gameObject);
 
         //later I want to get the player's health from a save file,
         //but for now it's set to 10 at start
 
-        player.Health = 10;
+        Entity.Health = 10;
 
         healthSlider.maxValue = 10;
 
@@ -37,17 +46,17 @@ public class PlayerObserver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(healthSlider.value != player.Health)
+        if(healthSlider.value != Entity.Health)
         {
             //healthSlider.interactable = true;
-            healthSlider.value = player.Health;
+            healthSlider.value = Entity.Health;
             //healthSlider.interactable = false;
         }
 
         //test hit
         if (Input.GetKeyDown(KeyCode.H))
         {
-            player.SelfHit(new HitData(1.0f));
+            Entity.SelfHit(new HitData(1.0f));
         }
 
         //toggle Inventory
@@ -57,9 +66,9 @@ public class PlayerObserver : MonoBehaviour
         }
 
         //test for player death
-        if(player.Health <= 0)
+        if(Entity.Health <= 0)
         {
-            player.OnDeath();
+            Entity.OnDeath();
         }
     }
 

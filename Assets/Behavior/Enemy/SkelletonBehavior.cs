@@ -4,7 +4,7 @@ using UnityEngine;
 using Pirateer.Gameplay.Environment;
 using Pirateer.Gameplay.Tools;
 
-public class SkelletonBehavior : MonoBehaviour
+public class SkelletonBehavior : MonoBehaviour, EntityBehavior
 {
     /*
      * this script is for implementing the state machine of the skelleton (I know
@@ -19,18 +19,18 @@ public class SkelletonBehavior : MonoBehaviour
      * 
      */
 
-    Skelleton skelleton;
+    public Entity Entity { get; set; }
     HitData hitData;
 
     // Start is called before the first frame update
     void Start()
     {
         //instantiate skelleton object
-        skelleton = new Skelleton(gameObject);
+        Entity = new Skelleton(gameObject);
 
         //TODO: generate hitdata based on loot
         //for now:
-        hitData = new HitData(4.0f);
+        hitData = new HitData(1.0f);
     }
 
     // Update is called once per frame
