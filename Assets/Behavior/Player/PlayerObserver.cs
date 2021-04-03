@@ -9,7 +9,19 @@ using Pirateer.Gameplay.Environment;
 
 public class PlayerObserver : MonoBehaviour, EntityBehavior
 {
+    public float HitDistance { get; set; } = 2.0f;
 
+    public EntityHandler handler { get; set; }
+
+    public void SetEntityHandler()
+    {
+        handler.GetEntityType<PlayerObserver>();
+    }
+
+    public void SetHandlerInactive()
+    {
+        handler.Active = false;
+    }
 
     //health slider
     public Slider healthSlider;

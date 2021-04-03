@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Behavior\Enemy\EntityBehavior.cs" />
+    <Compile Include="Assets\Behavior\Enemy\EntityHandler.cs" />
     <Compile Include="Assets\Behavior\Enemy\SkelletonBehavior.cs" />
     <Compile Include="Assets\Behavior\Player\PlayerCharacter.cs" />
     <Compile Include="Assets\Behavior\Player\PlayerController.cs" />

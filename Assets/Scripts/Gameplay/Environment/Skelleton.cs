@@ -12,7 +12,6 @@ namespace Pirateer.Gameplay.Environment
     public class Skelleton : Entity
     {
         //important stats
-        public float Health { get; } = 10f;
         public List<PItem> items { get; } = new List<PItem>();
 
         //a skeleton cannot be instantiated without a game object
@@ -23,7 +22,7 @@ namespace Pirateer.Gameplay.Environment
             EntityType = EntityType.enemy;
             //randomly generate the skeleton's items
 
-
+            Health = 10.0f;
         }
 
         //on hit of another entity, I'll be changing the player observer to an entity
