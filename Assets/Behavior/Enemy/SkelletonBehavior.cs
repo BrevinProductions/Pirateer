@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pirateer.Gameplay.Environment;
@@ -21,6 +22,11 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
      * EACH GAMEOBJECT WITH AN ENTITY BEHAVIOR ALSO REQUIRES AND ENTITYHANDLER - IT JUST
      * DELIVERS INFO TO OTHER GAMEOBJECTS LMAO
      */
+    //
+    float swingTimer = 0;
+    //
+
+    CharacterController ctlr;
 
     public EntityHandler handler { get; set; }
 
@@ -28,7 +34,7 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
     HitData hitData;
 
     GameObject target = null;
-    public float HitDistance { get; set; } = 1.0f;
+    public float HitDistance { get; set; } = 3.0f;
 
     enum MoveState : byte
     {
@@ -43,6 +49,9 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
     // Start is called before the first frame update
     void Start()
     {
+        //grab that controller
+        ctlr = GetComponent<CharacterController>();
+
         //instantiate skelleton object
         Entity = new Skelleton(gameObject);
 
@@ -54,11 +63,24 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
         handler = gameObject.GetComponent<EntityHandler>();
 
         mState = MoveState.Idle;
+
+        SetEntityHandler();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(swingTimer < 0)
+        {
+            swingTimer = 0;
+        }
+        else
+        {
+            swingTimer -= Time.deltaTime;
+        }
+
+        Vector3 moveVector = new Vector3();
+
         //test health to see if the entity has died
         if(Entity.Health <= 0.0f)
         {
@@ -69,7 +91,7 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
 
         //implement the state machine here
         //first test to see if target is active
-        if (target != null)
+        try
         {
             if (!target.GetComponent<EntityHandler>().Active)
             {
@@ -94,6 +116,10 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
                         else
                         {
                             //move toward the damn target (I've got to implement a character controller)
+
+                            //angle to face the target
+
+                            //move toward the target
                         }
                         break;
 
@@ -102,7 +128,15 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
                             mState = MoveState.Move;
                         else
                         {
+                            //zero the move vector
+                            moveVector = Vector3.zero;
+
                             //hit the damn target
+                            //test the swing timer to stop swing from overlapping
+                            if(swingTimer <= 0)
+                            {
+                                Swing(target);
+                            }
                         }
                         break;
 
@@ -117,12 +151,27 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
                 }
             }
         }
+        catch (NullReferenceException)
+        {
+
+        }
+        //add gravoty to the move vector
+
+
+        //apply the move vector
+        ctlr.Move(moveVector);
     }
 
-    bool Swing()
+    void Swing(GameObject trgt)
     {
-        //return true if the swing hit, just test to see if the sword made contact with the target
-        return false;
+        swingTimer = 3.0f;
+
+        Debug.Log(ToString() + " Register Swing at " + target.ToString());
+
+        //just pass the game object to a sword child
+
+        //get the sword component from the child gameObjects
+
     }
 
     //returns the distance to the target
@@ -136,7 +185,7 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
 
     public void SetEntityHandler()
     {
-        handler.GetEntityType<SkelletonBehavior>();
+        handler.GetEntity(Entity);
     }
 
     public void SetHandlerInactive()
@@ -144,21 +193,36 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
         handler.Active = false;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Collision happened");
         //check if updating the target is possible
-        if(target == null && collision.gameObject.tag.Equals("Entity"))
-        {
-            //get the entity handler
-            EntityHandler hitHandler = collision.gameObject.GetComponent<EntityHandler>();
 
-            if(hitHandler.Entity.EntityType == EntityType.friendly || hitHandler.Entity.EntityType == EntityType.player)
+        //check to see if the target is null
+        try
+        {
+            target.Equals(null);
+        }
+        //target is able to be reset
+        catch(NullReferenceException)
+        {
+            if (other.gameObject.tag.Equals("Entity"))
             {
-                //finally set the target
-                target = hitHandler.Entity.gameObject;
-                //let th debugger know what's up
-                Debug.Log("(SKELETON!) Entity has been updated to " + hitHandler.Entity.EntityType);
+                //just test to see if the collision has worked
+                Debug.Log( ToString() + " Entity Collision");
+
+                //get the entity handler
+                EntityHandler hitHandler = other.gameObject.GetComponent<EntityHandler>();
+
+                if (hitHandler.Entity.EntityType == EntityType.friendly || hitHandler.Entity.EntityType == EntityType.player)
+                {
+                    //finally set the target
+                    target = hitHandler.Entity.gameObject;
+                    //let the debugger know what's up
+                    Debug.Log("(SKELETON!) target entity has been updated to " + hitHandler.Entity.EntityType);
+                }
             }
         }
     }
+
 }

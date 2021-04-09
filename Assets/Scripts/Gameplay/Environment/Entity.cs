@@ -37,6 +37,12 @@ namespace Pirateer.Gameplay.Environment
         //enemies all need to execute this on death
         public abstract void OnDeath();
 
+        //
+        public virtual void DebugEntity()
+        {
+            Debug.Log("this entity is refferenced by an entity handler");
+        }
+
         //no enemy can be instantiated without a gameobject
         public Entity(GameObject obj)
         {

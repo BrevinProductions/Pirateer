@@ -9,8 +9,8 @@ namespace Pirateer.Gameplay.Tools
 {
     public interface EntityBehavior
     {
-        public float HitDistance { get; set; }
-        public EntityHandler handler {get; set;}
+        float HitDistance { get; set; }
+        EntityHandler handler {get; set;}
 
         Entity Entity { get; set; }
 

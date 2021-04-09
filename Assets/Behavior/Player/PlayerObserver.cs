@@ -15,7 +15,7 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
 
     public void SetEntityHandler()
     {
-        handler.GetEntityType<PlayerObserver>();
+        handler.GetEntity(Entity);
     }
 
     public void SetHandlerInactive()
@@ -39,10 +39,13 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
     // Start is called before the first frame update
     void Start()
     {
+        handler = gameObject.GetComponent<EntityHandler>();
+
         basicHit = new HitData(hitStrength);
         criticalHit = new HitData(hitStrength * 2.0f);
 
         Entity = new PlayerCharacter(gameObject);
+
 
         //later I want to get the player's health from a save file,
         //but for now it's set to 10 at start
@@ -53,6 +56,8 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
 
         //make sure user can't slide slider
         healthSlider.interactable = false;
+
+        SetEntityHandler();
     }
 
     // Update is called once per frame
