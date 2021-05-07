@@ -46,6 +46,12 @@ public class PlayerController : MonoBehaviour
     float turnSmoothVelocity;
     //
 
+    //
+    float swingTime = 0.0f;
+    //
+
+    Sword sword;
+
     //Start
     void Start() 
     {
@@ -56,12 +62,33 @@ public class PlayerController : MonoBehaviour
         //set stamina slider
         staminaSlider.maxValue = maxStamina;
         stamina = maxStamina;
+
+        sword = GetComponentInChildren<Sword>();
+    }
+
+    void Swing()
+    {
+        sword.Swing();
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        if (swingTime > 0)
+        {
+            swingTime -= Time.deltaTime;
+        }
+        if(swingTime < 0)
+        {
+            swingTime = 0.0f;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse0  ) && swingTime <= 0.0f)
+        {
+            Swing();
+        }
+
         //check ground state for jumping/air strafing
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 

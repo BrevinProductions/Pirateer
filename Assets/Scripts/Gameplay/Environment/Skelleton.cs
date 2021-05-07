@@ -52,8 +52,9 @@ namespace Pirateer.Gameplay.Environment
         //execute on death
         public override void OnDeath()
         {
+            gameObject.SetActive(false);
             //implement on death implementation
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

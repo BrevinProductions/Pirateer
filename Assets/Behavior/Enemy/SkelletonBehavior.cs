@@ -104,6 +104,12 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
                 target = null;
                 mState = MoveState.Idle;
             }
+            if(distanceToTarget() >= 30)
+            {
+                target = null;
+                Debug.Log("TARGET TOO FAR");
+                mState = MoveState.Idle;
+            }
             //do everything else (state machine)
             else
             {
@@ -125,6 +131,8 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
 
                             //angle to face the target
                             transform.LookAt(target.transform.position, Vector3.up);
+                            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+
                             moveVector = transform.rotation * Vector3.forward;
 
                             //move toward the target -- below to add gravity
