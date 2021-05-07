@@ -15,17 +15,10 @@ namespace Pirateer.Gameplay.Tools
         //add more as seen fit
     }
 
-    public class PItem
+    public interface PItem
     {
         public string Name { get; set; }
         public ItemType Type { get; set; }
         public bool equipped { get; set; }
-
-        public PItem()
-        {
-
-        }
-
-
     }
 }

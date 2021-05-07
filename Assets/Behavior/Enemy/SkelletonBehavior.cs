@@ -22,6 +22,7 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
      * EACH GAMEOBJECT WITH AN ENTITY BEHAVIOR ALSO REQUIRES AND ENTITYHANDLER - IT JUST
      * DELIVERS INFO TO OTHER GAMEOBJECTS LMAO
      */
+
     //
     float swingTimer = 0;
     //
@@ -36,6 +37,8 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
     GameObject target = null;
     public float HitDistance { get; set; } = 3.0f;
 
+    Sword sword;
+
     enum MoveState : byte
     {
         Idle,
@@ -49,6 +52,9 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
     // Start is called before the first frame update
     void Start()
     {
+        //grab sword child
+        sword = gameObject.transform.GetComponentInChildren<Sword>();
+
         //grab that controller
         ctlr = GetComponent<CharacterController>();
 
@@ -115,11 +121,13 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
                             mState = MoveState.Attack;
                         else
                         {
-                            //move toward the damn target (I've got to implement a character controller)
+                            //move toward target
 
                             //angle to face the target
+                            transform.LookAt(target.transform.position, Vector3.up);
+                            moveVector = transform.rotation * Vector3.forward;
 
-                            //move toward the target
+                            //move toward the target -- below to add gravity
                         }
                         break;
 
@@ -155,11 +163,11 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
         {
 
         }
-        //add gravoty to the move vector
+        //add gravity to the move vector
 
 
         //apply the move vector
-        ctlr.Move(moveVector);
+        ctlr.Move(moveVector * Time.deltaTime);
     }
 
     void Swing(GameObject trgt)
@@ -169,6 +177,7 @@ public class SkelletonBehavior : MonoBehaviour, EntityBehavior
         Debug.Log(ToString() + " Register Swing at " + target.ToString());
 
         //just pass the game object to a sword child
+        sword.Swing();
 
         //get the sword component from the child gameObjects
 
