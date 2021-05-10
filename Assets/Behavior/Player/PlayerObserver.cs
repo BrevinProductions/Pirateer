@@ -36,6 +36,9 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
 
     public Entity Entity { get; set; }
 
+    bool deathMessage = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,15 +68,7 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
     {
         if(healthSlider.value != Entity.Health)
         {
-            //healthSlider.interactable = true;
             healthSlider.value = Entity.Health;
-            //healthSlider.interactable = false;
-        }
-
-        //test hit
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Entity.SelfHit(new HitData(1.0f));
         }
 
         //toggle Inventory
@@ -83,10 +78,20 @@ public class PlayerObserver : MonoBehaviour, EntityBehavior
         }
 
         //test for player death
-        if(Entity.Health <= 0)
+        if((Entity.Health <= 0) && !deathMessage)
         {
+            deathMessage = true;
             Entity.OnDeath();
         }
+    }
+
+    public bool Collect(Gatherable item)
+    {
+        Debug.Log("Gathered " + item.gameObject);
+        item.gameObject.SetActive(false);
+        Entity.Items.Add(item.item);
+
+        return true;
     }
 
 

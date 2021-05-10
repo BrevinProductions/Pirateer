@@ -15,6 +15,8 @@ namespace Pirateer.Gameplay.Environment
             EntityType = EntityType.player;
 
             Health = 10.0f;
+
+            Items = new List<PItem>();
         }
 
         public override void Hit(Entity entity, HitData hit)

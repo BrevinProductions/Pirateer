@@ -4,7 +4,7 @@ using UnityEngine;
 using Pirateer.Gameplay.Tools;
 
 
-public class Sword : MonoBehaviour, PItem
+public class Sword : MonoBehaviour
 {
     public string Name { get; set; }
     public ItemType Type { get; set; }
